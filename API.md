@@ -651,6 +651,55 @@ DELETE /api/v1/queue/{id}
 
 ---
 
+## 音频流 (Stream)
+
+### 获取音频流
+
+从 WebDAV 代理流式传输音频文件，支持 HTTP Range 请求，可拖动进度条。
+
+```
+GET /api/v1/stream/{song_id}
+```
+
+**路径参数**:
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| song_id | int | 歌曲 ID |
+
+**响应**:
+- 成功时返回音频二进制流
+- 状态码 200 (完整文件) 或 206 (部分内容，Range 请求)
+
+**响应头**:
+| 头部 | 说明 |
+|------|------|
+| Content-Type | 音频 MIME 类型 (audio/mpeg, audio/flac 等) |
+| Accept-Ranges | bytes (支持分段请求) |
+| Content-Length | 内容长度 |
+| Content-Range | 分段范围 (仅 206 响应) |
+
+**前端使用示例**:
+```html
+<audio controls src="http://localhost:8889/api/v1/stream/28"></audio>
+```
+
+**错误响应**:
+```json
+{
+  "code": 40401,
+  "message": "歌曲不存在"
+}
+```
+
+```json
+{
+  "code": 40001,
+  "message": "歌曲未上传到 WebDAV"
+}
+```
+
+---
+
 ## 歌曲库 (Songs)
 
 ### 获取歌曲列表

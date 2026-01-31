@@ -264,3 +264,18 @@ export async function deleteFile(filename: string): Promise<ApiResponse<null>> {
   );
   return res.json();
 }
+
+// ============================================================
+// Stream (Audio Playback)
+// ============================================================
+
+/**
+ * Get the stream URL for a song
+ * Supports HTTP Range requests for seeking
+ * @param songId - The song ID
+ * @returns The stream URL (direct backend URL, not proxied)
+ */
+export function getStreamUrl(songId: number): string {
+  // Use direct backend URL for streaming (supports Range requests)
+  return `${SSE_BASE}/stream/${songId}`;
+}

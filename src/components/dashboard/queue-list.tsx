@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { RefreshCw, Trash2, Pause, Music, AlertCircle, Loader2 } from "lucide-react";
+import { RefreshCw, Trash2, Pause, Music, AlertCircle, Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table";
 import { QueueItem, QueueStats } from "@/types/api";
 import { getQueue, getQueueStats, getQueueCurrent, deleteFromQueue } from "@/lib/api";
+import { BatchAddDialog } from "./batch-add-dialog";
 
 export function QueueList() {
   const [items, setItems] = useState<QueueItem[]>([]);
@@ -147,15 +148,29 @@ export function QueueList() {
             {stats ? `${stats.pending} 等待 · ${stats.downloading} 下载中 · ${stats.completed} 完成` : "管理当前和历史任务"}
           </p>
         </div>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="h-9 rounded-full hover:bg-accent/50 active:scale-95 transition-all"
-          onClick={() => fetchData(true)}
-          disabled={refreshing}
-        >
-          <RefreshCw className={`mr-2 h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} /> 刷新
-        </Button>
+        <div className="flex items-center gap-2">
+          <BatchAddDialog 
+            trigger={
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="h-9 rounded-full active:scale-95 transition-all"
+              >
+                <Plus className="mr-2 h-4 w-4" /> 批量添加
+              </Button>
+            }
+            onSuccess={() => fetchData(true)}
+          />
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-9 rounded-full hover:bg-accent/50 active:scale-95 transition-all"
+            onClick={() => fetchData(true)}
+            disabled={refreshing}
+          >
+            <RefreshCw className={`mr-2 h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} /> 刷新
+          </Button>
+        </div>
       </div>
 
       {items.length === 0 ? (
