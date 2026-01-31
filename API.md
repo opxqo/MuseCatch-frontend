@@ -204,6 +204,120 @@ GET /api/v1/health
 }
 ```
 
+### Telegram 状态
+
+检查 Telegram 客户端连接状态，返回登录用户信息。
+
+```
+GET /api/v1/health/telegram
+```
+
+**响应示例**:
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "connected": true,
+    "user_id": 7093065702,
+    "username": "example_user",
+    "name": "张三"
+  }
+}
+```
+
+**连接失败时**:
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "connected": false,
+    "error": "连接已断开"
+  }
+}
+```
+
+### WebDAV 状态
+
+检查 WebDAV 服务连接状态。
+
+```
+GET /api/v1/health/webdav
+```
+
+**响应示例**:
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "connected": true,
+    "remote_path": "/webdav"
+  }
+}
+```
+
+**连接失败时**:
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "connected": false,
+    "error": "Connection refused"
+  }
+}
+```
+
+### 数据库状态
+
+查询数据库连接状态及各表详细统计信息。
+
+```
+GET /api/v1/health/database
+```
+
+**响应示例**:
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "connected": true,
+    "tables": {
+      "artists": 50,
+      "albums": 20,
+      "songs": 150,
+      "tags": 10,
+      "download_queue": 5,
+      "download_logs": 200
+    },
+    "songs_stats": {
+      "total": 150,
+      "uploaded_to_webdav": 145,
+      "total_size_bytes": 1572864000,
+      "total_size_mb": 1500.0,
+      "by_source": {
+        "qq": 60,
+        "kugou": 50,
+        "kuwo": 30,
+        "netease": 10
+      },
+      "by_format": {
+        ".mp3": 80,
+        ".flac": 70
+      }
+    },
+    "queue_stats": {
+      "pending": 3,
+      "downloading": 1,
+      "completed": 1
+    }
+  }
+}
+```
+
 ---
 
 ## 文件管理 (Files)
