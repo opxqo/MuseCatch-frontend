@@ -7,15 +7,19 @@ import { QueueList } from "@/components/dashboard/queue-list";
 import { SongLibrary } from "@/components/dashboard/song-library";
 import { ModeToggle } from "@/components/mode-toggle";
 import { BottomNav } from "@/components/bottom-nav";
+import { AmbientBackground } from "@/components/ambient-background";
+import { MiniPlayer } from "@/components/player/mini-player";
 import { Github } from "lucide-react";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("search");
 
   return (
-    <div className="h-[100dvh] bg-background flex flex-col font-sans selection:bg-primary/20 overflow-hidden">
+    <div className="h-[100dvh] bg-background flex flex-col font-sans selection:bg-primary/20 overflow-hidden relative">
+      <AmbientBackground />
+      <MiniPlayer />
       {/* Top Navigation (Desktop & Mobile) */}
-      <header className="shrink-0 bg-background/80 backdrop-blur-md z-50 border-b border-border/40">
+      <header className="shrink-0 bg-background/50 backdrop-blur-sm z-50 border-b border-border/40 transition-all duration-300">
         <div className="container mx-auto py-3 px-4 flex items-center justify-between">
           <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
             <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">

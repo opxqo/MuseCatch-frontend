@@ -65,7 +65,9 @@ export interface TaskProgressEvent {
   complete: boolean;
   result?: {
     success: boolean;
-    filename?: string;
-    error?: string;
+    filename?: string | null;
+    song_id?: number | null;
+    message?: string;  // Error message from backend
+    error?: string;    // Alternative error field
   } | null;
 }

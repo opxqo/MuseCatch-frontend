@@ -512,6 +512,48 @@ DELETE /api/v1/tasks/{batch_id}
 
 ## 下载队列 (Queue)
 
+### 获取当前下载进度
+
+获取队列工作器当前正在下载的歌曲及其实时进度。
+
+```
+GET /api/v1/queue/current
+```
+
+**响应示例 (下载中)**:
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "downloading": true,
+    "queue_id": 5,
+    "song_name": "七里香",
+    "source": "qq",
+    "percent": 45.5,
+    "status": "下载中 45%",
+    "started_at": "2026-01-31T17:30:00"
+  }
+}
+```
+
+**响应示例 (空闲)**:
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "downloading": false,
+    "queue_id": null,
+    "song_name": null,
+    "source": null,
+    "percent": 0,
+    "status": "空闲",
+    "started_at": null
+  }
+}
+```
+
 ### 获取队列列表
 
 ```
