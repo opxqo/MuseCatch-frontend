@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "name": "musecatch",
+  "build": {
+    "command": "npm run build",
+    "output": "out"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/_next/static/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/icons/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/manifest.json",
+      "headers": {
+        "Cache-Control": "public, max-age=86400"
+      }
+    },
+    {
+      "src": "/sw.js",
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
+    }
+  ]
+}

@@ -11,10 +11,10 @@ import {
   TaskProgressEvent,
 } from "@/types/api";
 
-const API_BASE = "/api/v1";
-
-// SSE needs direct connection to backend (Next.js rewrites don't support streaming)
-const SSE_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8889/api/v1";
+// API Base URL - must be set in environment for static export
+// In development: http://localhost:8889/api/v1
+// In production: https://your-backend.com/api/v1
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8889/api/v1";
 
 // ============================================================
 // Health Check
@@ -82,15 +82,13 @@ export async function createTask(
 
 /**
  * Subscribe to task progress via SSE
- * Uses direct backend connection since Next.js rewrites don't support SSE streaming
  */
 export function subscribeTaskProgress(
   taskId: string,
   onProgress: (event: TaskProgressEvent) => void,
   onError?: (error: Event) => void
 ): EventSource {
-  // Use direct backend URL for SSE (Next.js proxy buffers responses)
-  const eventSource = new EventSource(`${SSE_BASE}/tasks/${taskId}/progress`);
+  const eventSource = new EventSource(`${API_BASE}/tasks/${taskId}/progress`);
 
   // Handle named "progress" events (backend sends: event: progress)
   eventSource.addEventListener("progress", (e) => {
@@ -273,9 +271,23 @@ export async function deleteFile(filename: string): Promise<ApiResponse<null>> {
  * Get the stream URL for a song
  * Supports HTTP Range requests for seeking
  * @param songId - The song ID
- * @returns The stream URL (direct backend URL, not proxied)
+ * @returns The stream URL (direct backend URL)
  */
 export function getStreamUrl(songId: number): string {
-  // Use direct backend URL for streaming (supports Range requests)
-  return `${SSE_BASE}/stream/${songId}`;
+  return `${API_BASE}/stream/${songId}`;
+}
+
+// ============================================================
+// Downloads
+// ============================================================
+
+/**
+ * Get the download URL for a file
+ * @param filename - The filename to download
+ * @returns The download URL (direct backend URL)
+ */
+export function getDownloadUrl(filename: string): string {
+  // Extract base URL without /api/v1
+  const baseUrl = API_BASE.replace(/\/api\/v1$/, "");
+  return `${baseUrl}/downloads/${encodeURIComponent(filename)}`;
 }

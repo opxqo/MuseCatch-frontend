@@ -1,14 +1,22 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/api/v1/:path*",
-        destination: "http://localhost:8889/api/v1/:path*",
-      },
-    ];
+  // Static export for EdgeOne Pages
+  output: "export",
+  
+  // Disable image optimization (not supported in static export)
+  images: {
+    unoptimized: true,
   },
+  
+  // Turbopack for faster builds
+  turbopack: {},
+  
+  // Trailing slash for better static hosting compatibility
+  trailingSlash: true,
+  
+  // Generate source maps for debugging (optional, can disable for smaller builds)
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;

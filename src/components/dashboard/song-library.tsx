@@ -26,7 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Song } from "@/types/api";
-import { getSongs, deleteFile } from "@/lib/api";
+import { getSongs, deleteFile, getDownloadUrl } from "@/lib/api";
 import { usePlayerStore } from "@/store/use-player-store";
 import { cn } from "@/lib/utils";
 
@@ -93,7 +93,7 @@ export function SongLibrary() {
 
   const handleDownload = (song: Song) => {
     // Open download URL in new tab
-    window.open(`/downloads/${encodeURIComponent(song.filename)}`, "_blank");
+    window.open(getDownloadUrl(song.filename), "_blank");
   };
 
   const handlePlay = (song: Song) => {
